@@ -1,0 +1,67 @@
+---
+title: "Dashboard LISA: Educación Secundaria Completa en Lima"
+output:
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)   # siempre
+library(ggplot2)
+library(sf)
+```
+
+<!-- cargar los 4 mapas guardados como .rds -->
+```{r}
+viz1 = readRDS("map1.rds")
+viz2 = readRDS("map2.rds")
+viz3 = readRDS("map3.rds")
+viz4 = readRDS("map4.rds")
+```
+
+## Intro {.sidebar}
+
+Este dashboard presenta un análisis de autocorrelación espacial local (**LISA**)
+aplicado al **porcentaje de población con Educación Secundaria Completa (2019)**
+en los distritos del **departamento de Lima**.
+
+Se comparan **4 reglas de vecindad** distintas para resaltar cómo cambia la
+detección de clusters según el criterio: Queen, Rook, KNN (k=4) y Banda de
+Distancia.
+
+**Leyenda de Clasificación LISA (p < 0.05):**
+
+- **HotSpot (HH):** valores altos rodeados de valores altos.
+- **ColdSpot (LL):** valores bajos rodeados de valores bajos.
+- **HotOutlier (HL):** valor alto rodeado de valores bajos.
+- **ColdOutlier (LH):** valor bajo rodeado de valores altos.
+- **no_pattern:** sin patrón espacial significativo.
+
+## Column {data-width="500"}
+
+### Criterio 1: Contigüidad Queen (lados y vértices)
+
+```{r}
+viz1
+```
+
+### Criterio 2: Contigüidad Rook (solo lados)
+
+```{r}
+viz2
+```
+
+## Column {data-width="500"}
+
+### Criterio 3: K Vecinos Más Cercanos (KNN, k = 4)
+
+```{r}
+viz3
+```
+
+### Criterio 4: Banda de Distancia (radio fijo)
+
+```{r}
+viz4
+```
